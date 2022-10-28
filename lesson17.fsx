@@ -27,3 +27,25 @@ yearOld |> writeOut
 
 Console.WriteLine("Folders 1 year old or younger:")
 younger |> writeOut
+
+let sharedFiles (d1:DirectoryInfo) (d2:DirectoryInfo) =
+    let ext1 = d1.GetFiles() 
+                |> Seq.map (fun f -> f.Extension) 
+                |> Set.ofSeq
+    let ext2 = d2.GetFiles() 
+                |> Seq.map (fun f -> f.Extension) 
+                |> Set.ofSeq
+    ext1 |> Set.intersect ext2
+
+let folders2 = Directory.EnumerateDirectories(@"C:\Dana\")
+            |> Seq.map DirectoryInfo 
+            |> List.ofSeq
+            |> List.map (fun di -> di.Name, di)
+            |> Map.ofList
+
+let sf1 = "littledb"
+let sf2 = "notion"
+Console.WriteLine($"\nShared file types between %s{sf1} and %s{sf2}:")
+let shared = sharedFiles folders2[sf1] folders2[sf2] 
+Console.WriteLine($"%A{shared}")
+    
