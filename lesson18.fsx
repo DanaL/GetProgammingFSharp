@@ -6,7 +6,6 @@ let folder = "/Users/dana/Documents/"
 let files = Directory.GetFiles(folder)
                 |> Seq.map (fun f -> FileInfo(f))
 
-
 let length inputs =
     Seq.fold (fun count _ -> count + 1) 0 inputs
 
