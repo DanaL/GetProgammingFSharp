@@ -1,2 +1,23 @@
-﻿// For more information see https://aka.ms/fsharp-console-apps
-printfn "Hello from F#"
+﻿open System
+
+open Domain
+open Operations
+
+let acct = { Customer = "Dana"; Balance = 0.0M; AcctNo = 5555 }
+
+let account =
+    let cmds = seq {
+        while true do
+        Console.Write("(d)eposit (w)ithdraw or e(x)it: ")
+        yield Console.ReadKey().KeyChar
+        Console.WriteLine("")
+    }
+
+    cmds
+    |> Seq.filter isValidCommand
+    |> Seq.takeWhile (isStopCommand >> not)
+    |> Seq.map getAmountConsole
+    |> Seq.fold processCommand acct
+    
+Console.WriteLine("")
+Console.WriteLine(account)
