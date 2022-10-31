@@ -1,6 +1,6 @@
 ﻿open System
+open System.IO
 
-open Domain
 open Operations
 
 let processCmdConsole = processCommand writeTransactionConsole
@@ -9,7 +9,9 @@ let processCmdFile = processCommand writeTransactionFile
 let account =
     Console.Write("What is your name? ")
     let name = Console.ReadLine()
-    let acct = { Customer = name; Balance = 0.0M; AcctNo = Random().Next(1000, 10_000) }
+    
+    let acct = if File.Exists($"%s{name}.txt") then accountFile name
+                 else accountConsole name
     
     let cmds = seq {
         while true do
