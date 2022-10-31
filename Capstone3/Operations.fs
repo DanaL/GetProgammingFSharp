@@ -1,6 +1,7 @@
 module Operations
 
 open System
+open System.IO
 
 open Domain
 
@@ -28,6 +29,10 @@ let writeTransactionConsole transaction acct =
     if transaction.Success then
         let s = $"Current balance: $%0.00M{acct.Balance}"
         Console.WriteLine(s)
+
+let writeTransactionFile transaction acct =
+    let msg = $"%d{acct.AcctNo}***%c{transaction.Action}***%0.00M{transaction.Amount}***%s{transaction.TimeStamp.Ticks.ToString()}*\n"
+    File.AppendAllText($"%s{acct.Customer}.txt", msg)
     
 let processCommand writer (acct:Account) (cmd, amount) =
     let newBalance = if cmd = 'w' then acct.Balance - amount 

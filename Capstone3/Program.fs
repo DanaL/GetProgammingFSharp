@@ -3,11 +3,14 @@
 open Domain
 open Operations
 
-let acct = { Customer = "Dana"; Balance = 0.0M; AcctNo = 5555 }
-
 let processCmdConsole = processCommand writeTransactionConsole
+let processCmdFile = processCommand writeTransactionFile
 
 let account =
+    Console.Write("What is your name? ")
+    let name = Console.ReadLine()
+    let acct = { Customer = name; Balance = 0.0M; AcctNo = Random().Next(1000, 10_000) }
+    
     let cmds = seq {
         while true do
         Console.Write("(d)eposit (w)ithdraw or e(x)it: ")
@@ -19,7 +22,7 @@ let account =
     |> Seq.filter isValidCommand
     |> Seq.takeWhile (isStopCommand >> not)
     |> Seq.map getAmountConsole
-    |> Seq.fold processCmdConsole acct
+    |> Seq.fold processCmdFile acct
     
 Console.WriteLine("")
 Console.WriteLine(account)
