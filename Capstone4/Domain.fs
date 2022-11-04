@@ -2,5 +2,6 @@
 
 open System
 
+type Operation = Withdraw | Deposit
 type Account = { Customer: string; Balance : Decimal; AcctNo: int }
-type Transaction = { Action: char; TimeStamp: DateTime; Success: bool; Amount: decimal } 
+type Transaction = { Action: Operation; TimeStamp: DateTime; Success: bool; Amount: decimal } 
